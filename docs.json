@@ -17,10 +17,7 @@
             "group": "Concepts & Terminology",
             "pages": [
               "overview-concepts/what-is-synthesized",
-              "overview-concepts/key-concepts",
-              {
-                "pages": ["overview-concepts/workflows-projects"]
-              }
+              "overview-concepts/key-concepts"
             ]
             
           }
