@@ -32,6 +32,19 @@
                 ]
               }
             ]
+          },
+          {
+            "group": "Installation & Setup",
+            "pages": [
+              {
+                "group": "Quickstart (Demo)",
+                "pages": [
+                  "installation-setup/demo-env",
+                  "installation-setup/ide-setup",
+                  "installation-setup/example-data-sources"
+                ]
+              }
+            ]
           }
         ]
       },
