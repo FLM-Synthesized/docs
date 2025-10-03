@@ -14,11 +14,15 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Concepts & Terminology",
             "pages": [
-              "index",
-              "index2"
+              "what-is-synthesized",
+              "key-concepts",
+              {
+                "pages": ["workflows-projects"]
+              }
             ]
+            
           }
         ]
       },
