@@ -1,6 +1,40 @@
 ---
 title: "What is Synthesized"
-description: "Description of your new file."
 ---
 
-erfefefewf
+![Landing Pn](/images/landing.png)
+
+Synthesized provides a secure, privacy preserving, tailored version of production data that can be used for many purposes including `(i)` creating a privacy-compliant replica of production data for development, testing, and data engineering, and `(ii)` generating large amounts of data for performance testing.
+
+It gives users the ability to generate structured synthetic test data at the database level, replicating database structures and maintaining key features like referential integrity whilst also preserving data privacy.
+
+Synthesized works with relational databases that contain complex structures such as constraints and tables with references to other tables, amongst others. Relational databases are the central point of many applications, and getting access to data can be crucial for developing, maintaining and testing data-centric applications. But getting access to production data can be difficult and time-consuming (read more [<u>here</u>](https://www.synthesized.io/post/will-your-data-pass-the-test)).
+
+The program is a Java based application that exposes a number of APIs, allowing simple automation of processes and integration into pipelines. Deployment can be done directly from the source package (a Java JAR file) or through a docker image.
+
+## Who Synthesized helps
+
+In short, Software Engineers, Software Testers, Test Engineers, DBAs, QA Engineers, and Data Engineers.
+
+Software Engineers, Software Testers, Test Engineers, DBAs, and QA Engineers are all interested in ensuring that the software being created will work as intended at scale in production.
+
+Data Engineers will often require databases to test their data ingestion, curation, and extraction pipelines on.
+
+Putting raw production data into a test environment is not a solution for most organizations for many reasons, data privacy and security being chief among them. This often leads to teams of people having to create 'fake test data', which is costly from a time perspective, or to Engineers not having any test data to use. Both of these scenarios will often lead to Engineers having to debug issues in production, which is not ideal. Load testing in such a scenario is a distant idea.
+
+The TDK allows for realistic synthetic test data that looks like production to be created quickly and easily, replicating the production setup without any of the security risks of testing with production data.
+
+## How Synthezised works
+
+The Synthesized API allows users to create and run workflows that connect to a database, extract the database model, learn all of the necessary information from the database, and generate a Synthetic copy that will be written to a destination database.
+
+While the new database preserves the high level information of the source database, it is free of sensitive information and preserves data privacy as no original data is present in the generated dataset.
+
+The following information is preserved from source database to target database:
+
+- **Tables and column names**. The schema of all tables and columns will be copied from the original source
+- **Data types**. All columns in the destination database will have the same data type as in the source database
+- **DDL**. The DDL for both databases (including constraints, procedures, views, sequences, etc.) will be present in the Synthesized database as they were in the source database
+- **Referential Integrity**. Primary and Foreign keys will be copied, ensuring referential integrity is preserved so that the user can query data with join statements and obtain similar results
+- **Key Cardinality**. Foreign key distributions are generated as close as possible to the source database to ensure similar cardinality
+- **Column marginal distributions**. Column marginal distributions are approximated and sampled from probability distributions to be similar to those in the original database
