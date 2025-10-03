@@ -17,7 +17,10 @@
             "group": "Concepts & Terminology",
             "pages": [
               "overview-concepts/what-is-synthesized",
-              "overview-concepts/key-concepts"
+              "overview-concepts/key-concepts",
+              {
+                "pages": "overview-concepts/integrations"
+              }
             ]
             
           }
