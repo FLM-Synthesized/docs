@@ -1,5 +1,5 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "$schema": "https://mintlify.com/schema.json",
   "theme": "mint",
   "name": "Synthesized",
   "colors": {
@@ -20,10 +20,11 @@
               "overview-concepts/key-concepts",
               {
                 "group": "Nested",
-                "pages": "overview-concepts/integrations"
+                "pages": [
+                  "overview-concepts/integrations"
+                ]
               }
             ]
-            
           }
         ]
       },
@@ -37,7 +38,7 @@
         {
           "anchor": "Documentation",
           "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "icon": "book-open"
         },
         {
           "anchor": "Blog",
@@ -70,8 +71,6 @@
       "view",
       "chatgpt",
       "claude",
-      "perplexity",
-      "mcp",
       "cursor",
       "vscode"
     ]
