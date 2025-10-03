@@ -19,6 +19,7 @@
               "overview-concepts/what-is-synthesized",
               "overview-concepts/key-concepts",
               {
+                "group": "Nested",
                 "pages": "overview-concepts/integrations"
               }
             ]
