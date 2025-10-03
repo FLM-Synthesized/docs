@@ -1,4 +1,171 @@
 ---
 title: "Demo Environment"
-description: "Description of your new file."
 ---
+
+## What You’ll Build
+
+This guide helps you set up a local demo of [<u>Synthesized TDK</u>](https://synthesizedio.jfrog.io/artifactory/governor-public/governor-compose_v1.121.3.zip) (Test Data Kit) with Governor - our data transformation and management platform. With this you can:
+
+- Explore realistic synthetic test data
+- See data masking and anonymization in action
+- Try out data subsetting and sampling features
+- Experience the Governor web interface for managing data workflows
+
+Use this guide to run a local demo of TDK with Docker (or Podman) and Compose. It’s ideal for evaluation and quick trials.
+
+<Warning>
+  This setup is not for production. It uses a hard-coded JWT secret and other demo defaults. For secure, scalable deployments, see [<u>Docker compose based production setup</u>](https://docs.synthesized.io/tdk/latest/user_guide/100_deployment/dc) and [<u>Helm chart based Kubernetes production setup</u>](https://docs.synthesized.io/tdk/latest/user_guide/100_deployment/helm).
+</Warning>
+
+## Before you Start
+
+### **Required Software**
+
+You’ll need either Docker or Podman installed:
+
+**Option 1: Docker (Recommended)**
+
+1. Install [<u>Docker</u>](https://docs.docker.com/get-docker).
+2. Verify installation: `docker --version`
+
+**Option 2: Podman (Linux users)**
+
+1. Install [<u>Podman</u>](https://podman.io/getting-started/installation) and [<u>Podman Compose</u>](https://github.com/containers/podman-compose)
+2. Verify installation: `podman --version`
+
+<Expandable title="For RHEL with SELinux enabled runtime only">
+  Allow the 389 (LDAP) and 80 (frontend HTTP) ports for usage in the SELinux subsystem:
+
+  ```powershell
+  sudo semanage port -a -t http_port_t -p tcp 80
+  sudo echo "net.ipv4.ip_unprivileged_port_start=80" >> /etc/sysctl.conf
+  sudo sysctl -p
+  ```
+</Expandable>
+
+## Quick Start Installation
+
+To run Governor locally for evaluation:
+
+<Check>
+  Download and unzip the latest [<u>governor-compose.zip</u>](http://governor-compose.zip), which contains the Docker Compose scripts and demo database dumps.
+</Check>
+
+Navigate to the unzipped directory and run:
+
+<Tabs>
+  <Tab title="Docker">
+    ```
+    # Pull the required images
+    docker compose pull
+    
+    # Start all services
+    docker compose up
+    ```
+
+    Open the UI:
+
+    Go to [<u>http://localhost:8080</u>](http://localhost:8080/) (or [<u>http://localhost:80</u>](http://localhost/) if you kept 80:80)
+
+    Use the predefined credentials to log in: `test@synthesized.io` / `Qq12345_`.
+
+    <Note>
+      Connection details for demo source and target databases (host `transformed_db`, port 5432) are valid inside the internal Docker Compose network. To access the databases from the host machine, use `localhost` and port `5433`.
+    </Note>
+  </Tab>
+  <Tab title="Podman">
+    ```powershell
+    # Pull the required images
+    podman-compose pull
+    
+    # Start all services
+    podman-compose up
+    ```
+
+    When using [<u>Podman</u>](https://podman.io/) and [<u>Podman Compose</u>](https://github.com/containers/podman-compose) instead of Docker, you must make the following changes.
+
+    Relabel volume mounts (RHEL with SELinux only):
+
+    **_In _**`docker-compose.yml`**_, add the _**`:Z`**_SELinux relabeling option to all volume mounts_** 
+
+    ```powershell
+    volumes:
+      - "./initdb/create_governor_db.sql:/docker-entrypoint-initdb.d/1.sql:Z"
+      - "./initdb/create_governor_schema.sql:/docker-entrypoint-initdb.d/2.sql:Z"
+    ```
+
+    Change the Governor UI service port mapping to avoid privileged ports:
+
+    <Note>
+      If you have already performed the SELinux configuration steps above (allowing port 80 for unprivileged usage), **changing the port mapping is not necessary** and you can keep `80:80`.
+    </Note>
+    ```powershell
+    ports:
+    - "8080:80"
+    ```
+  </Tab>
+</Tabs>
+
+## Optional Configuration
+
+### **Setting up a volume for Governor Postgres DB**
+
+Governor uses a PostgreSQL database to store its configuration and state. By default, the data is stored inside the Docker container, which means it will be lost if the container is removed. To enable data persistence, you can mount a folder from your local filesystem as a volume:
+
+- uncomment the line: `<Governor DB host directory path>:/var/lib/postgresql/data"`
+- Replace `<Governor DB host directory path>` with an absolute path on your machine where you’d like to store the database files.
+
+This ensures that database data will be persisted between restarts of the container or Docker daemon. Optionally, you can do the same for transformed database by replacing `<transformed DB host directory path>`.
+
+### **Setting up a volume for RocksDB**
+
+Synthesized TDK embedded into Governor relies on RocksDB embedded key-value store to speed up its performance. However, having RocksDB folder inside the container can lead to problems both with performance and space restrictions. In order to set up a volume on your local filesystem:
+
+- uncomment `volumes` section in `docker-compose.yml`
+- uncomment `- <RocksDB host directory path>:/app/rocksdb` line and substitute your path to RocksDB folder.
+- make sure this folder is accessible for Docker using `chmod 777<RocksDB host directory path>` command.
+
+### **Setting up a volume for log files**
+
+If you are willing to store Governor log files locally instead having them in the container, do the following:
+
+- uncomment `volumes` section in `docker-compose.yml`
+- uncomment `- <logs host directory path>:/app/logs` line and substitute your path to logs folder.
+- make sure this folder is accessible for Docker using `chmod 777 <logs host directory path>` command.
+
+<Warning>
+  You must use separate folders on the host machine for each of the following paths: **\<Governor DB host directory path\>**, **\<transformed DB host directory path\>**, **\<RocksDB host directory path\>**, **\<logs host directory path\>**.
+</Warning>
+
+## Troubleshooting
+
+### **Common Issues**
+
+Port 8080 already in use
+
+```
+# Stop the conflicting service or change the port in docker-compose.yml:
+ports:
+- "8081:80" # Use port 8081 instead
+```
+
+Permission errors (Linux/macOS):
+
+```
+sudo docker compose up
+```
+
+**Services won’t start:**
+
+```
+# Check if all containers are running:
+docker compose ps
+
+# View detailed logs:
+docker compose logs
+```
+
+**Can’t connect to databases:** The demo databases run inside Docker and are accessible at:
+
+- From host machine: localhost:5433
+- From within containers: transformed_db:5432
