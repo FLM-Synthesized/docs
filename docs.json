@@ -69,8 +69,8 @@
     }
   },
   "logo": {
-    "dark": "/logo/Synthesized-Logo-Black.svg",
-    "light": "/logo/Synthesized-Logo-White.svg"
+    "light": "/logo/Synthesized-Logo-Black.svg",
+    "dark": "/logo/Synthesized-Logo-White.svg"
   },
   "navbar": {
     "links": [
