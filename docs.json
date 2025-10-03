@@ -14,14 +14,21 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Concepts & Terminology",
+            "group": "Overview & Concepts",
             "pages": [
               "overview-concepts/what-is-synthesized",
-              "overview-concepts/key-concepts",
               {
-                "group": "Nested",
+                "group": "Key Concepts / Terminology",
                 "pages": [
-                  "overview-concepts/integrations"
+                  "overview-concepts/integrations",
+                  "overview-concepts/features",
+                  "overview-concepts/workflows-projects"
+                ]
+              },
+              {
+                "group": "Architecture & Context Diagrams",
+                "pages": [
+                  "overview-concepts/architecture"
                 ]
               }
             ]
