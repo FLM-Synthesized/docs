@@ -40,7 +40,7 @@
                 "group": "Quickstart (Demo)",
                 "pages": [
                   "installation-setup/demo-env",
-                  "installation-setup/ide-setup",
+                  "installation-setup/IDE-setup",
                   "installation-setup/example-data-sources"
                 ]
               }
