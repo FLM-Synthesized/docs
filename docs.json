@@ -43,6 +43,15 @@
                   "installation-setup/IDE-setup",
                   "installation-setup/example-data-sources"
                 ]
+              },
+              {
+                "group": "Installation Options",
+                "pages": [
+                  "installation-options/docker",
+                  "installation-options/Kubernetes",
+                  "installation-options/cloud-marketplace",
+                  "installation-options/offline-airgapped"
+                ]
               }
             ]
           }
