@@ -48,7 +48,7 @@
                 "group": "Installation Options",
                 "pages": [
                   "installation-setup/installation-options/docker",
-                  "installation-setup/installation-options/Kubernetes",
+                  "installation-setup/installation-options/kubernetes",
                   "installation-setup/installation-options/cloud-marketplace",
                   "installation-setup/installation-options/offline-airgapped"
                 ]
